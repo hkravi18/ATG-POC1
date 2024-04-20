@@ -14,6 +14,11 @@ const port = process.env.PORT || 4000;
 //routes
 const companyRoutes = require("./routes/companyRoutes.js");
 
+//logger
+const customLogger = require("./middlewares/logger.js");
+
+app.use(customLogger);
+
 app.use("/api/company", companyRoutes);
 
 app.use(errorHandler);
