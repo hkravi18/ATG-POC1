@@ -1,8 +1,12 @@
 const express = require("express");
 const router = express.Router();
 
-const { getNewCompanies } = require("../controllers/companyController.js");
+const {
+  getNewCompanies,
+  verifyCompany,
+} = require("../controllers/companyController.js");
 
 router.get("/", getNewCompanies);
+router.put("/:id", verifyCompany);
 
 module.exports = router;

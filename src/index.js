@@ -11,7 +11,7 @@ const port = process.env.PORT || 4000;
 //routes
 const companyRoutes = require("./routes/companyRoutes.js");
 
-app.use(companyRoutes);
+app.use("/api/company", companyRoutes);
 
 app.on("error", (err) => {
   if (err instanceof Error) {
