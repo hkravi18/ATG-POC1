@@ -1,5 +1,8 @@
 const { Company } = require("../models");
 
+//utils
+const CustomError = require("../utils/customError.js");
+
 // @desc    Get Two New Companies
 // route    GET /api/company/
 // @access  Public
@@ -26,17 +29,53 @@ const getNewCompanies = async (req, res, next) => {
       error: null,
     });
   } catch (err) {
-    console.error(err);
-    res.status(500).json({ error: "Server error" });
+    const error = new CustomError(
+      err.message,
+      500,
+      "get-new-companies",
+      "Error",
+      "INVALID"
+    );
+    next(error);
   }
 };
 
+// @desc    Verify Company
+// route    PUT /api/company/
+// @access  Public
 const verifyCompany = async (req, res, next) => {
   try {
     const { id } = req.params;
 
     if (!id) {
-      throw new Error("Company Id is required for verification");
+      const error = new Error(
+        "Please give all the fields",
+        400,
+        "verify-company",
+        "Company Id is required for verification",
+        "INVALID_REQUEST"
+      );
+      next(error);
+
+      return;
+    }
+
+    //checking the company's email with given id is already verified
+    const companyVerificationStatus = await Company.findOne({
+      where: { id },
+    });
+
+    if (companyVerificationStatus.emailVerified) {
+      const error = new CustomError(
+        "Company is already verified",
+        400,
+        "verify-company",
+        "Company with given Id is already verified",
+        "INVALID_REQUEST"
+      );
+      next(error);
+
+      return;
     }
 
     const updatedCompany = await Company.update(
@@ -59,11 +98,24 @@ const verifyCompany = async (req, res, next) => {
         error: null,
       });
     } else {
-      throw new Error("Company not found");
+      const error = new CustomError(
+        "Please valid id",
+        400,
+        "verify-company",
+        "Company with given Id does not exists",
+        "INVALID_REQUEST"
+      );
+      next(error);
     }
   } catch (err) {
-    console.error(err);
-    res.status(500).json({ error: "Server error" });
+    const error = new CustomError(
+      err.message,
+      500,
+      "verify-company",
+      "Error",
+      "INVALID"
+    );
+    next(error);
   }
 };
 

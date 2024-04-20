@@ -5,6 +5,9 @@ require("dotenv").config({
 //express app
 const app = require("./app");
 
+//middlewares
+const errorHandler = require("./middlewares/errorHandler.js");
+
 //port
 const port = process.env.PORT || 4000;
 
@@ -12,6 +15,8 @@ const port = process.env.PORT || 4000;
 const companyRoutes = require("./routes/companyRoutes.js");
 
 app.use("/api/company", companyRoutes);
+
+app.use(errorHandler);
 
 app.on("error", (err) => {
   if (err instanceof Error) {

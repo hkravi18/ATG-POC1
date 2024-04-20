@@ -1,10 +1,6 @@
 require("dotenv").config({
   path: `${__dirname}/../../.env`,
 });
-const path = require("path");
-const migrationsPath = path.join(__dirname, "..", "db", "migrations");
-console.log(migrationsPath);
-
 const staticConfig = {
   dialect: "mysql",
 };
