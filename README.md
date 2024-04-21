@@ -29,6 +29,7 @@ This is an API project with backend build with ExpressJS/NodeJS and database on 
 - Prettier is used for code formatting
 - Lint-staged is used for running prettier and eslint on all changed files in each commit
 - Husky is used to provide git hooks for pre-commit and pre-push
+- You can find scripts related to linting, formatting and database in the package.json
 
 ## Technologies Used
 
@@ -45,24 +46,45 @@ This is an API project with backend build with ExpressJS/NodeJS and database on 
 
 1. Clone the repository:
 
-git clone <REPO_URL>
+   ```bash
+   git clone <REPO_URL>
+   ```
 
 2. Navigate to the project directory:
 
-cd ATG-POC1
+   ```bash
+   cd ATG-POC1
+   ```
 
 3. Install dependencies for the server:
 
-npm install
+   ```bash
+   npm install
+   ```
 
 4. Set up environment variables (a .env file is needed for this expressJS server, instructions provided in `Configuration`).
 
 5. Start the server:
 
-In root directory:
+   In root directory:
 
-- To start the server using Nodemon **npm run dev**
-- To start the server without Nodemon **npm start**
+   - To start the server using Nodemon
+
+   ```bash
+   npm run dev
+   ```
+
+   - To start the server without Nodemon
+
+   ```bash
+   npm start
+   ```
+
+6. Run migrations to create models:
+
+   ```bash
+   npm run migrate
+   ```
 
 ## Configuration
 
@@ -84,7 +106,24 @@ DB_HOST=
 DB_NAME=
 ```
 
-> To setup the database locally, then make a connection in you local mysql server and fill the details in the .env
+> IMP:
+
+- To setup the database locally, make a connection in you local mysql server and fill the credentials in the .env
+- The server will automatically create a database with DB_NAME if it does not already exist.
+- APP_ENV variable in the .env should be either **PRODUCTION** or **DEVELOPMENT**
+- Adding some dummy records to the database (through sql workbench) to test the API (after creating migrations)
+  - Make the you database as default
+    ```sql
+    use DB_NAME
+    ```
+  - Insert dummy data into the database
+    ```sql
+    INSERT INTO companies (name, country, website, email, isSent, emailVerified)
+    VALUES
+    ('OpenAI', 'USA', 'https://openai.com', 'contact@openai.com', false, false),
+    ('AutoWorks', 'Germany', 'https://autoworks.de', 'service@autoworks.de', false, false),
+    ('HealthPlus', 'Australia', 'https://healthplus.au', 'admin@healthplus.au', false, false);
+    ```
 
 ## API Routes
 
@@ -93,10 +132,12 @@ DB_NAME=
 - **GET /api/company**
 
   - Content-Type: _none_
+  - Requirement: _none_
   - Description: To fetch two new companies (not fetched previously).
 
-- **PUT /api/company**
+- **PUT /api/company/:id**
   - Content-Type: _none_
+  - Requirement: Need company id in params (url)
   - Description: To verify a company's email.
 
 ## Backend
@@ -106,4 +147,4 @@ DB_NAME=
 
 ## Database
 
-MySql is used as a primary database for this project along with Sequelize as an ORM.
+- MySql is used as a primary database for this project along with Sequelize as an ORM.

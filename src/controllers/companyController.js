@@ -47,6 +47,7 @@ const verifyCompany = async (req, res, next) => {
   try {
     const { id } = req.params;
 
+    //company id is not provided
     if (!id) {
       const error = new Error(
         "Please give all the fields",
@@ -65,6 +66,7 @@ const verifyCompany = async (req, res, next) => {
       where: { id },
     });
 
+    //company's email is already verified
     if (companyVerificationStatus.emailVerified) {
       const error = new CustomError(
         "Company is already verified",
@@ -78,6 +80,7 @@ const verifyCompany = async (req, res, next) => {
       return;
     }
 
+    //updating the company's email verification status
     const updatedCompany = await Company.update(
       { emailVerified: true },
       {
@@ -85,6 +88,7 @@ const verifyCompany = async (req, res, next) => {
       }
     );
 
+    //fetching the company details (to send back to client)
     const company = await Company.findOne({
       where: { id },
     });
