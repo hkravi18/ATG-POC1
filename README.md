@@ -80,7 +80,7 @@ This is an API project with backend build with ExpressJS/NodeJS and database on 
    npm start
    ```
 
-6. Run migrations to create models:
+6. Run migrations to create models (run migrations only after the server is started):
 
    ```bash
    npm run migrate
@@ -142,7 +142,8 @@ DB_NAME=
 
 ## Backend
 
-- Router are created for authentication.
+- Router are created for routing API requests according to API URL.
+- All migrations are maintained in the migrations directory
 - Controllers are created for handling routes of these routers.
 
 ## Database
